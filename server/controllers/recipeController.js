@@ -127,9 +127,13 @@ exports.exploreRandom = async(req, res) => {
 
 
 
-
-
-
+/*
+ * Get /submit-recipe
+ * Submit Recipe
+*/
+exports.submitRecipe = async(req, res) => {
+    res.render('submit-recipe', { title: 'Kamat Recipe App - Submit Recipe' });
+}
 
 
 
