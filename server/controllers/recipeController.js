@@ -57,7 +57,6 @@ exports.exploreCategoriesById = async(req, res) => {
 
 
 
-
 /*
  * Get /recipe/:id
  * Recipe
@@ -71,6 +70,37 @@ exports.exploreRecipe = async(req, res) => {
         res.status(500).send({message: error.message || "Error Occured" });
     }
 }
+
+/*
+ * POST /search
+ * Search
+*/
+
+exports.searchRecipe = async(req, res) => {
+    res.render('search', {title: 'Kamat Recipe App - Search'});
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // async function insertDummyRecipeData() {
