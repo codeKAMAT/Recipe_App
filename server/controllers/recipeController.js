@@ -40,6 +40,22 @@ exports.exploreCategories = async(req, res) => {
     }
 }
 
+/*
+ * Get /categories/:id
+ * CategoriesById
+*/
+exports.exploreCategoriesById = async(req, res) => {
+    try {
+        let categoryId = req.params.id;
+        const limitNumber = 20;
+        const categoriesById = await Recipe.find({ 'category': categoryId }).limit(limitNumber);
+        res.render('categories', { title: 'Kamat Recipe App - Categories', categoriesById});
+    } catch (error) {
+        res.status(500).send({message: error.message || "Error Occured" });
+    }
+}
+
+
 
 
 /*
