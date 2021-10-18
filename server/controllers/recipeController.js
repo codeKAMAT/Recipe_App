@@ -16,9 +16,10 @@ exports.homepage = async(req, res) => {
         const thai = await Recipe.find({ 'category': 'Thai' }).limit(limitNumber);
         const american = await Recipe.find({ 'category': 'American' }).limit(limitNumber);
         const chinese = await Recipe.find({ 'category': 'Chinese' }).limit(limitNumber);
+        const indian = await Recipe.find({ 'category' : 'Indian' }).limit(limitNumber);
 
 
-        const food = {latest, thai, american, chinese };
+        const food = {latest, thai, american, chinese, indian };
         
         res.render('index', { title: 'Kamat Recipe App - Home', categories, food});
     } catch (error) {
@@ -131,8 +132,54 @@ exports.exploreRandom = async(req, res) => {
  * Get /submit-recipe
  * Submit Recipe
 */
+
 exports.submitRecipe = async(req, res) => {
-    res.render('submit-recipe', { title: 'Kamat Recipe App - Submit Recipe' });
+    const infoErrorsObj = req.flash('infoErrors');
+    const infoSubmitObj = req.flash('infoSubmit');
+    res.render('submit-recipe', { title: 'Kamat Recipe App - Submit Recipe', infoErrorsObj, infoSubmitObj  } );
+  }
+
+/*
+ * POST /submit-recipe
+ * Submit Recipe
+*/
+exports.submitRecipeOnPost = async(req, res) => {
+    try {
+        let imageUploadFile;
+        let uploadPath;
+        let newImageName;
+
+        if(!req.files || Object.keys(req.files).length === 0){
+            console.log('No files where uploaded.')
+        } else {
+            imageUploadFile = req.files.image;
+            newImageName = Date.now() + imageUploadFile.name;
+            uploadPath = require('path').resolve('./')+'/public/uploads/' + newImageName;
+
+            imageUploadFile.mv(uploadPath, function(err){
+                if(err) return res.status(500).send(err);
+            })
+        }
+
+        const newRecipe = new Recipe({
+            name: req.body.name,
+            description: req.body.description,
+            email: req.body.email,
+            ingredients: req.body.ingredients,
+            category: req.body.category,
+            image: newImageName
+        })
+        await newRecipe.save(); //save to database
+
+        req.flash('infoSubmit', 'Recipe has been added.')
+        res.redirect('/submit-recipe');
+    } catch (error) {
+            // res.json(error);
+        req.flash('infoErrors', error);
+        res.redirect('/submit-recipe');
+
+    }
+    
 }
 
 
@@ -143,41 +190,4 @@ exports.submitRecipe = async(req, res) => {
 
 
 
-
-
-
-// async function insertDummyRecipeData() {
-//     try {
-//         await Recipe.insertMany([
-//                   { 
-//                     "name": "Recipe Name Goes Here",
-//                     "description": `Recipe Description Goes Here`,
-//                     "email": "hello@codekamat.me",
-//                     "ingredients": [
-//                       "1 level teaspoon baking powder",
-//                       "1 level teaspoon cayenne pepper",
-//                       "1 level teaspoon hot smoked paprika",
-//                     ],
-//                     "category": "American", 
-//                     "image": "southern-friend-chicken.jpg"
-//                   },
-//                   { 
-//                     "name": "Recipe Name Goes Here",
-//                     "description": `Recipe Description Goes Here`,
-//                     "email": "hello@codekamat.me",
-//                     "ingredients": [
-//                       "1 level teaspoon baking powder",
-//                       "1 level teaspoon cayenne pepper",
-//                       "1 level teaspoon hot smoked paprika",
-//                     ],
-//                     "category": "American", 
-//                     "image": "southern-friend-chicken.jpg"
-//                   },
-//                 ]);
-//     } catch(error){
-//         console.log('err', + error);
-//     }
-// }
-
-// insertDummyRecipeData();
 
