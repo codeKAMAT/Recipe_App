@@ -1,6 +1,6 @@
-# Recipe_App
+## Recipe App
 
-#### See Live Site: <https://>
+##### See Live Site: <https://>
 
 #### Description:
 
@@ -19,13 +19,16 @@
 - Run `npm install` to install node modules
 - Run `npm start` to run it locally then will open automatclly on your browser on `localhost:3000` port
 
-#### Tech Stack-
+#### Tech Stack
 
 - EJS
 - Bootstrap 5
-- Nodejs
+- Node.js
+- Express.js
 - MongoDB
 
+##### NPM packages 
+   `connect-flash, cookie-parser, dotenv, ejs, express, express-ejs-layouts, express-fileupload, express-session, MongoDB and mongoose`
 
 #### Screens :computer:
 
@@ -36,8 +39,6 @@
 ![Technology overview](/public/screenshots/uploadedRecipe.png)
 
 ![Technology overview](/public/screenshots/recipeDetail.png)
-
-![Technology overview](/public/screenshots/FullScreen.png)
 
 ![Technology overview](/public/screenshots/search.gif)
 
